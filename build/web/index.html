@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>DonGlai | Iluminación LED</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/donglai.ico" />
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- PrimeFlex -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/primeflex/3.3.0/primeflex.min.css" rel="stylesheet"/>
+
+    <!-- PrimeFaces Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/primefaces/13.0.0/themes/bootstrap4-dark-blue/theme.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --primary-color: #00e0ff;
+            --secondary-color: #00a2ff;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            background: linear-gradient(90deg, #000000, #0a0a0a, #141414);
+            padding: 1rem 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin: 0 0.8rem;
+            transition: 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-login {
+            border: 1px solid var(--primary-color);
+            border-radius: 30px;
+            color: var(--primary-color) !important;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-color);
+            color: #000 !important;
+        }
+
+        /* === HERO === */
+        .hero {
+            background: radial-gradient(circle at center, #1b1b1b 0%, #000000 100%);
+            text-align: center;
+            padding: 120px 20px;
+            animation: fadeIn 2s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 1rem auto;
+        }
+
+        .glow-button {
+            background-color: var(--primary-color) !important;
+            border: none !important;
+            color: #000 !important;
+            font-weight: 600;
+            border-radius: 30px;
+            padding: 0.9rem 2.5rem;
+            animation: pulse 2s infinite;
+            transition: 0.3s;
+        }
+
+        .glow-button:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px var(--primary-color); }
+            50% { box-shadow: 0 0 25px var(--primary-color); }
+        }
+
+        /* === CONTENT CARDS === */
+        .content-section {
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+        }
+        
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.2);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .content-card p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+        
+        .company-name {
+            font-size: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background-color: #000;
+            color: #aaa;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 0.95rem;
+            margin-top: 50px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-icons {
+            margin: 15px 0;
+        }
+        
+        .footer-icons i {
+            margin: 0 10px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === EFECTO CINTAS LED === */
+        #led-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .led-trail {
+            position: absolute;
+            width: 24px;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), #0066ff);
+            box-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color);
+            pointer-events: none;
+            z-index: 101;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(0.5px);
+        }
+        
+        .led-trail.active {
+            opacity: 0.9;
+        }
+        
+        /* Efecto de partículas LED */
+        .led-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color), 0 0 15px var(--secondary-color);
+            pointer-events: none;
+            z-index: 101;
+            opacity: 0;
+        }
+        
+        /* Cursor personalizado */
+        .led-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-color), transparent);
+            box-shadow: 0 0 15px var(--primary-color);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.7;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+            
+            .company-name {
+                font-size: 1.6rem;
+            }
+        }
+        /*Cierre de sesion*/
+        
+    </style>
+</h:head>
+
+<h:body>
+
+    <!-- 🔹 Contenedor para las cintas LED (sobre todo) -->
+    <div id="led-container"></div>
+    
+    <!-- 🔹 Cursor personalizado LED -->
+    <div class="led-cursor" id="led-cursor"></div>
+
+    <!-- 🔹 Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/donglai.jpg" alt="logo" />
+                DonGlai
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="proveedores.html">Proveedores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tienda.html">Tienda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="registro.jsp">Registro</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.jsp">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link btn-login ms-2 px-3" href="login.jsp">
+                        <i class="bi bi-person-circle"></i> Iniciar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 💡 Hero Section -->
+    <section class="hero">
+        <h1>Ilumina tu mundo con <b>DonGlai</b></h1>
+        <p>Innovación, estilo y eficiencia en iluminación LED para tu hogar y tu negocio.  
+           Descubre nuestra colección exclusiva de focos, sensores y accesorios.</p>
+
+        <!--<p:commandButton value="Explorar Tienda"
+                         styleClass="glow-button"
+                         icon="pi pi-shopping-cart"
+                         onclick="window.location='tienda.html'"/>-->
+    
+    
+    <!-- 💎 Content Section -->
+    
+        <div class="container">
+            <div class="company-name">Dingfeng Lighting Hardware Co., Ltd.</div>
+            <p class="text-center mb-5" style="color: #ccc; font-size: 1.1rem;">
+                (Dingfeng Import and Export Trade S.A.C. – Perú)
+            </p>
+            
+            <div class="row d-flex align-items-stretch">
+                <div class="col-lg-12">
+                    <div class="content-card">
+                        <h2 align="center" ><b>Reseña Histórica</b></h2>
+                        <p>Dingfeng Lighting Hardware Co., Ltd. fue fundada en 2012 en Zhongshan, Guangdong, China. 
+                        Se especializa en la fabricación de luminarias solares y LED, incluyendo farolas, reflectores,
+                        bombillas y ventiladores solares.
+                        Con presencia en más de 100 países, entre ellos España, Canadá, Rusia y Perú, su filial <b>DonGlai Perú</b>
+                        lidera la distribución de soluciones energéticas en Sudamérica.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content-card">
+                        <h2 align="center" ><b>Misión</b></h2>
+                        <p>Proveer soluciones de iluminación y
+                            energía renovable de alta calidad que efectivamente reduzcan costos eléctricos, constantemente 
+                            fomenten el ahorro energético y 
+                            el cuidado del medio ambiente, buscando el bienestar de nuestros clientes.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content-card">
+                        <h2 align="center"> <b>Visión</b></h2>
+                        <p>Ser líderes globales en innovación y producción de luminarias solares
+                            y LED, alcanzando presencia en más de 150 países, consolidándonos como 
+                            la mejor alternativa de iluminación sostenible en el mundo.</p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="content-card">
+                        <h2 align="center" ><b>Rubro</b></h2>
+                        <p>Fabricación, importación y comercialización de luminarias solares, LED y accesorios de iluminación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </section>
+    <!-- 🔻 Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 DonGlai — Innovando en Iluminación LED</p>
+            <div class="footer-icons">
+                <i class="bi bi-envelope"></i>
+                <i class="bi bi-telephone"></i>
+                <i class="bi bi-geo-alt"></i>
+                <i class="bi bi-instagram"></i>
+            </div>
+            <p>contacto@donglai.com | +51 999 123 456</p>
+            <p>Av. La Luz 123, Lima, Perú</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script para el efecto de cintas LED -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ledContainer = document.getElementById('led-container');
+            const ledCursor = document.getElementById('led-cursor');
+            const ledTrails = [];
+            const particles = [];
+            let mouseX = 0, mouseY = 0;
+            let prevX = 0, prevY = 0;
+            let mouseInWindow = true;
+            
+            // Crear cintas LED iniciales
+            for (let i = 0; i < 20; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'led-trail';
+                ledContainer.appendChild(trail);
+                ledTrails.push({
+                    element: trail,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    opacity: 0,
+                    delay: i * 0.04 // Retraso progresivo para crear efecto de cola
+                });
+            }
+            
+            // Crear partículas LED
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'led-particle';
+                ledContainer.appendChild(particle);
+                particles.push({
+                    element: particle,
+                    x: 0,
+                    y: 0,
+                    vx: 0,
+                    vy: 0,
+                    life: 0,
+                    maxLife: 0
+                });
+            }
+            
+            // Seguimiento del mouse
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Actualizar cursor personalizado
+                ledCursor.style.left = mouseX + 'px';
+                ledCursor.style.top = mouseY + 'px';
+                
+                // Activar cintas LED
+                if (mouseInWindow) {
+                    ledTrails.forEach(trail => {
+                        trail.element.classList.add('active');
+                    });
+                }
+            });
+            
+            // Animación de las cintas LED
+            function animateLEDs() {
+                // Actualizar posición de las cintas
+                ledTrails.forEach((trail, index) => {
+                    const delayFactor = trail.delay;
+                    
+                    // Calcular posición con retraso
+                    const targetX = mouseX - 12; // Ajuste para centrar
+                    const targetY = mouseY - 5;  // Ajuste para centrar
+                    
+                    if (index === 0) {
+                        trail.x = targetX;
+                        trail.y = targetY;
+                    } else {
+                        const prevTrail = ledTrails[index - 1];
+                        trail.x += (prevTrail.x - trail.x) * 0.3;
+                        trail.y += (prevTrail.y - trail.y) * 0.3;
+                    }
+                    
+                    // Aplicar transformación
+                    trail.element.style.left = trail.x + 'px';
+                    trail.element.style.top = trail.y + 'px';
+                    trail.element.style.transform = `scale(${trail.scale})`;
+                    trail.element.style.opacity = trail.opacity;
+                });
+                
+                // Crear partículas ocasionales
+                if (Math.random() < 0.4 && mouseX !== prevX && mouseY !== prevY && mouseInWindow) {
+                    const availableParticle = particles.find(p => p.life <= 0);
+                    if (availableParticle) {
+                        availableParticle.x = mouseX;
+                        availableParticle.y = mouseY;
+                        availableParticle.vx = (Math.random() - 0.5) * 5;
+                        availableParticle.vy = (Math.random() - 0.5) * 5;
+                        availableParticle.life = availableParticle.maxLife = Math.random() * 25 + 15;
+                        availableParticle.element.style.opacity = '0.8';
+                    }
+                }
+                
+                // Actualizar partículas
+                particles.forEach(particle => {
+                    if (particle.life > 0) {
+                        particle.x += particle.vx;
+                        particle.y += particle.vy;
+                        particle.life--;
+                        
+                        particle.element.style.left = particle.x + 'px';
+                        particle.element.style.top = particle.y + 'px';
+                        particle.element.style.opacity = (particle.life / particle.maxLife) * 0.8;
+                        
+                        if (particle.life <= 0) {
+                            particle.element.style.opacity = '0';
+                        }
+                    }
+                });
+                
+                prevX = mouseX;
+                prevY = mouseY;
+                
+                requestAnimationFrame(animateLEDs);
+            }
+            
+            // Iniciar animación
+            animateLEDs();
+            
+            // Ocultar cintas cuando el mouse sale de la ventana
+            document.addEventListener('mouseleave', function() {
+                mouseInWindow = false;
+                ledTrails.forEach(trail => {
+                    trail.element.classList.remove('active');
+                });
+                ledCursor.style.opacity = '0';
+            });
+            
+            // Mostrar cintas cuando el mouse entra en la ventana
+            document.addEventListener('mouseenter', function() {
+                mouseInWindow = true;
+                ledTrails.forEach(trail => {
+                    trail.element.classList.add('active');
+                });
+                ledCursor.style.opacity = '0.7';
+            });
+            
+            // Efecto al hacer clic
+            document.addEventListener('click', function() {
+                // Crear explosión de partículas al hacer clic
+                for (let i = 0; i < 10; i++) {
+                    const availableParticle = particles.find(p => p.life <= 0);
+                    if (availableParticle) {
+                        availableParticle.x = mouseX;
+                        availableParticle.y = mouseY;
+                        availableParticle.vx = (Math.random() - 0.5) * 12;
+                        availableParticle.vy = (Math.random() - 0.5) * 12;
+                        availableParticle.life = availableParticle.maxLife = Math.random() * 20 + 10;
+                        availableParticle.element.style.opacity = '1';
+                    }
+                }
+            });
+        });
+        
+    </script>
+</h:body>
+</html>

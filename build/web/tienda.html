@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tienda | DonGlai - Iluminación LED</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/donglai.ico" />
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- PrimeFlex -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/primeflex/3.3.0/primeflex.min.css" rel="stylesheet"/>
+
+    <!-- PrimeFaces Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/primefaces/13.0.0/themes/bootstrap4-dark-blue/theme.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
+    <style>
+        :root {
+            --primary-color: #00e0ff;
+            --secondary-color: #00a2ff;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --accent-color: #ff00aa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            background: linear-gradient(90deg, #000000, #0a0a0a, #141414);
+            padding: 1rem 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin: 0 0.8rem;
+            transition: 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-login {
+            border: 1px solid var(--primary-color);
+            border-radius: 30px;
+            color: var(--primary-color) !important;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-color);
+            color: #000 !important;
+        }
+
+        /* === HERO === */
+        .hero {
+            background: radial-gradient(circle at center, #1b1b1b 0%, #000000 100%);
+            text-align: center;
+            padding: 80px 20px;
+            animation: fadeIn 2s ease;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 224, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+        }
+
+        .hero p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 1rem auto;
+        }
+
+        /* === CONTENT CARDS === */
+        .content-section {
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+        }
+        
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 224, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .content-card:hover::before {
+            left: 100%;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.2);
+        }
+        
+        .content-card h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .content-card h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .content-card p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+        
+        /* Store Cards */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .store-card {
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .store-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 224, 255, 0.05) 0%, transparent 50%);
+            z-index: 1;
+        }
+        
+        .store-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 224, 255, 0.3);
+        }
+        
+        .store-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 224, 255, 0.5);
+        }
+        
+        .store-name {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .store-description {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-store {
+            background-color: var(--primary-color);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            border-radius: 30px;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-store:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 224, 255, 0.7);
+            color: #000;
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 60px 20px;
+            background: linear-gradient(to right, #0d0d0d, #1a1a1a);
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            background: rgba(26, 26, 26, 0.7);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .feature-description {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+        
+        /* Store Info */
+        .store-info-card {
+            background: linear-gradient(135deg, #1a1a1a, #222);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #ddd;
+        }
+        
+        /* Virtual Store Section */
+        .virtual-store-section {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            padding: 80px 20px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .virtual-store-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(0, 224, 255, 0.05) 0%, transparent 50%);
+        }
+        
+        .virtual-store-card {
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 15px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 224, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .virtual-store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 224, 255, 0.2);
+        }
+        
+        .virtual-store-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .btn-virtual-store {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: #000;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 224, 255, 0.4);
+        }
+        
+        .btn-virtual-store:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.6);
+            color: #000;
+        }
+        
+        /* === FOOTER === */
+        footer {
+            background-color: #000;
+            color: #aaa;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 0.95rem;
+            margin-top: 50px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-icons {
+            margin: 15px 0;
+        }
+        
+        .footer-icons i {
+            margin: 0 10px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--primary-color); }
+            50% { box-shadow: 0 0 25px var(--primary-color); }
+        }
+
+        /* === EFECTO CINTAS LED === */
+        #led-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .led-trail {
+            position: absolute;
+            width: 24px;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), #0066ff);
+            box-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color);
+            pointer-events: none;
+            z-index: 101;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(0.5px);
+        }
+        
+        .led-trail.active {
+            opacity: 0.9;
+        }
+        
+        /* Efecto de partículas LED */
+        .led-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color), 0 0 15px var(--secondary-color);
+            pointer-events: none;
+            z-index: 101;
+            opacity: 0;
+        }
+        
+        /* Cursor personalizado */
+        .led-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-color), transparent);
+            box-shadow: 0 0 15px var(--primary-color);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.7;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+            
+            .store-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .virtual-store-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+    <!--  Contenedor para las cintas LED (sobre todo) -->
+    <div id="led-container"></div>
+    
+    <!--  Cursor personalizado LED -->
+    <div class="led-cursor" id="led-cursor"></div>
+
+    <!--  Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/donglai.jpg" alt="logo" />
+                DonGlai
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="proveedores.html">Proveedores</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="tienda.html">Tienda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="registro.jsp">Registro</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.jsp">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link btn-login ms-2 px-3" href="login.jsp">
+                        <i class="bi bi-person-circle"></i> Iniciar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--  Hero Section -->
+    <section class="hero">
+        <h1>Nuestras <b>Tiendas</b></h1>
+        <p>Descubre nuestros puntos de venta físicos y nuestra tienda virtual con la mejor tecnología en iluminación LED</p>
+    </section>
+    
+    <!--  Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content-card">
+                        <h2 align="center"><b>Experiencia DonGlai</b></h2>
+                        <p>En DonGlai ofrecemos múltiples formas de adquirir nuestros productos de iluminación LED. 
+                        Ya sea que prefieras la experiencia personalizada de nuestras tiendas físicas o la comodidad 
+                        de comprar desde cualquier lugar a través de nuestra tienda virtual, tenemos la solución perfecta para ti.</p>
+                        
+                        <p>Nuestros asesores especializados están disponibles para ayudarte a encontrar la iluminación 
+                        ideal para tu hogar, negocio o proyecto, garantizándote productos de la más alta calidad y 
+                        eficiencia energética.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tiendas Disponibles -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="content-card">
+                        <h2 align="center"><b>Nuestros Puntos de Venta</b></h2>
+                        <div class="store-grid">
+                            <!-- Tienda Física 1 -->
+                            <div class="store-card">
+                                <div class="store-icon">🏪</div>
+                                <h3 class="store-name">Tienda Principal</h3>
+                                <div class="store-description">
+                                    Nuestra tienda flagship con la exhibición más completa de productos LED y soluciones de iluminación.
+                                </div>
+                                <a href="#store-info" class="btn-store">Ver Detalles</a>
+                            </div>
+                            
+                            <!-- Tienda Física 2 -->
+                            <div class="store-card">
+                                <div class="store-icon">🔧</div>
+                                <h3 class="store-name">Centro Técnico</h3>
+                                <div class="store-description">
+                                    Especializado en proyectos comerciales e industriales con soporte técnico especializado.
+                                </div>
+                                <a href="#store-info" class="btn-store">Ver Detalles</a>
+                            </div>
+                            
+                            <!-- Tienda Virtual -->
+                            <div class="store-card">
+                                <div class="store-icon">🛒</div>
+                                <h3 class="store-name">Tienda Virtual</h3>
+                                <div class="store-description">
+                                    Compra desde cualquier lugar con envío a todo el país y asesoría virtual especializada.
+                                </div>
+                                <a href="https://tienda.donglai.com" target="_blank" class="btn-store">Ir a la Tienda</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Información de Tienda Física -->
+            <div class="row" id="store-info">
+                <div class="col-lg-8">
+                    <div class="content-card">
+                        <h2 align="center"><b>Tienda Física DonGlai</b></h2>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="store-info-card">
+                                    <h3> Información de Contacto</h3>
+                                    <div class="info-item">
+                                        <div class="info-label">Dirección</div>
+                                        <div class="info-value">Av. La Luz 123, San Isidro, Lima, Perú</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Teléfono</div>
+                                        <div class="info-value">+51 999 123 456</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Email</div>
+                                        <div class="info-value">tienda@donglai.com</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Horario de Atención</div>
+                                        <div class="info-value">
+                                            Lunes a Viernes: 9:00 AM - 7:00 PM<br>
+                                            Sábados: 9:00 AM - 2:00 PM<br>
+                                            Domingos: Cerrado
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="store-info-card">
+                                    <h3> Cómo Llegar</h3>
+                                    <div class="info-item">
+                                        <div class="info-label">Transporte Público</div>
+                                        <div class="info-value">Metro Estación San Isidro (Línea 1) - 5 min a pie</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Estacionamiento</div>
+                                        <div class="info-value">Parqueo gratuito para clientes (máx. 2 horas)</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Accesibilidad</div>
+                                        <div class="info-value">Instalaciones adaptadas para personas con movilidad reducida</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="content-card">
+                        <h3> Servicios en Tienda</h3>
+                        <ul class="supplier-products">
+                            <li>Asesoría técnica personalizada</li>
+                            <li>Demostraciones de productos en vivo</li>
+                            <li>Diseño de proyectos de iluminación</li>
+                            <li>Pruebas de productos antes de comprar</li>
+                            <li>Servicio de instalación profesional</li>
+                            <li>Garantía extendida en tienda</li>
+                            <li>Financiamiento y crédito directo</li>
+                            <li>Recolección y reciclaje de productos antiguos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Características de la Tienda -->
+            <div class="row features-section">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <div class="feature-title">Showroom Interactivo</div>
+                        <div class="feature-description">Prueba los productos en ambientes simulados antes de comprar</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">👨‍💼</div>
+                        <div class="feature-title">Asesores Especializados</div>
+                        <div class="feature-description">Personal capacitado para recomendarte la mejor solución</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚚</div>
+                        <div class="feature-title">Entrega Inmediata</div>
+                        <div class="feature-description">Lleva tus productos el mismo día de tu compra</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🛠️</div>
+                        <div class="feature-title">Servicio Técnico</div>
+                        <div class="feature-description">Instalación y mantenimiento por expertos certificados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección Tienda Virtual -->
+    <section class="virtual-store-section">
+        <div class="container">
+            <div class="virtual-store-card">
+                <div class="virtual-store-icon">🛒</div>
+                <h2>Tienda Virtual DonGlai</h2>
+                <p class="mt-3">Descubre nuestra plataforma de comercio electrónico con catálogo completo, 
+                precios especiales y envío a todo el Perú. Disfruta de una experiencia de compra segura 
+                y conveniente desde la comodidad de tu hogar u oficina.</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h4>✅ Ventajas de Comprar Online</h4>
+                        <ul class="supplier-products">
+                            <li>Catálogo completo 24/7</li>
+                            <li>Precios especiales online</li>
+                            <li>Envío gratuito desde S/ 300</li>
+                            <li>Múltiples métodos de pago</li>
+                            <li>Seguridad garantizada</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>🚀 Características de la Tienda</h4>
+                        <ul class="supplier-products">
+                            <li>Interfaz intuitiva y responsive</li>
+                            <li>Filtros avanzados de búsqueda</li>
+                            <li>Comparación de productos</li>
+                            <li>Asesoría virtual en tiempo real</li>
+                            <li>Seguimiento de pedidos</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <a href="https://tienda.donglai.com" target="_blank" class="btn-virtual-store">
+                    <i class="bi bi-cart3"></i> Ir a la Tienda Virtual
+                </a>
+                <p class="mt-3 small text-muted">Se abrirá en una nueva pestaña</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔻 Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 DonGlai — Innovando en Iluminación LED</p>
+            <div class="footer-icons">
+                <i class="bi bi-envelope"></i>
+                <i class="bi bi-telephone"></i>
+                <i class="bi bi-geo-alt"></i>
+                <i class="bi bi-instagram"></i>
+            </div>
+            <p>contacto@donglai.com | +51 999 123 456</p>
+            <p>Av. La Luz 123, Lima, Perú</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script para el efecto de cintas LED -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ledContainer = document.getElementById('led-container');
+            const ledCursor = document.getElementById('led-cursor');
+            const ledTrails = [];
+            const particles = [];
+            let mouseX = 0, mouseY = 0;
+            let prevX = 0, prevY = 0;
+            let mouseInWindow = true;
+            
+            // Crear cintas LED iniciales
+            for (let i = 0; i < 20; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'led-trail';
+                ledContainer.appendChild(trail);
+                ledTrails.push({
+                    element: trail,
+                    x: 0,
+                    y: 0,
+                    scale: 1,
+                    opacity: 0,
+                    delay: i * 0.04 // Retraso progresivo para crear efecto de cola
+                });
+            }
+            
+            // Crear partículas LED
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'led-particle';
+                ledContainer.appendChild(particle);
+                particles.push({
+                    element: particle,
+                    x: 0,
+                    y: 0,
+                    vx: 0,
+                    vy: 0,
+                    life: 0,
+                    maxLife: 0
+                });
+            }
+            
+            // Seguimiento del mouse
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Actualizar cursor personalizado
+                ledCursor.style.left = mouseX + 'px';
+                ledCursor.style.top = mouseY + 'px';
+                
+                // Activar cintas LED
+                if (mouseInWindow) {
+                    ledTrails.forEach(trail => {
+                        trail.element.classList.add('active');
+                    });
+                }
+            });
+            
+            // Animación de las cintas LED
+            function animateLEDs() {
+                // Actualizar posición de las cintas
+                ledTrails.forEach((trail, index) => {
+                    const delayFactor = trail.delay;
+                    
+                    // Calcular posición con retraso
+                    const targetX = mouseX - 12; // Ajuste para centrar
+                    const targetY = mouseY - 5;  // Ajuste para centrar
+                    
+                    if (index === 0) {
+                        trail.x = targetX;
+                        trail.y = targetY;
+                    } else {
+                        const prevTrail = ledTrails[index - 1];
+                        trail.x += (prevTrail.x - trail.x) * 0.3;
+                        trail.y += (prevTrail.y - trail.y) * 0.3;
+                    }
+                    
+                    // Aplicar transformación
+                    trail.element.style.left = trail.x + 'px';
+                    trail.element.style.top = trail.y + 'px';
+                    trail.element.style.transform = `scale(${trail.scale})`;
+                    trail.element.style.opacity = trail.opacity;
+                });
+                
+                // Crear partículas ocasionales
+                if (Math.random() < 0.4 && mouseX !== prevX && mouseY !== prevY && mouseInWindow) {
+                    const availableParticle = particles.find(p => p.life <= 0);
+                    if (availableParticle) {
+                        availableParticle.x = mouseX;
+                        availableParticle.y = mouseY;
+                        availableParticle.vx = (Math.random() - 0.5) * 5;
+                        availableParticle.vy = (Math.random() - 0.5) * 5;
+                        availableParticle.life = availableParticle.maxLife = Math.random() * 25 + 15;
+                        availableParticle.element.style.opacity = '0.8';
+                    }
+                }
+                
+                // Actualizar partículas
+                particles.forEach(particle => {
+                    if (particle.life > 0) {
+                        particle.x += particle.vx;
+                        particle.y += particle.vy;
+                        particle.life--;
+                        
+                        particle.element.style.left = particle.x + 'px';
+                        particle.element.style.top = particle.y + 'px';
+                        particle.element.style.opacity = (particle.life / particle.maxLife) * 0.8;
+                        
+                        if (particle.life <= 0) {
+                            particle.element.style.opacity = '0';
+                        }
+                    }
+                });
+                
+                prevX = mouseX;
+                prevY = mouseY;
+                
+                requestAnimationFrame(animateLEDs);
+            }
+            
+            // Iniciar animación
+            animateLEDs();
+            
+            // Ocultar cintas cuando el mouse sale de la ventana
+            document.addEventListener('mouseleave', function() {
+                mouseInWindow = false;
+                ledTrails.forEach(trail => {
+                    trail.element.classList.remove('active');
+                });
+                ledCursor.style.opacity = '0';
+            });
+            
+            // Mostrar cintas cuando el mouse entra en la ventana
+            document.addEventListener('mouseenter', function() {
+                mouseInWindow = true;
+                ledTrails.forEach(trail => {
+                    trail.element.classList.add('active');
+                });
+                ledCursor.style.opacity = '0.7';
+            });
+            
+            // Efecto al hacer clic
+            document.addEventListener('click', function() {
+                // Crear explosión de partículas al hacer clic
+                for (let i = 0; i < 10; i++) {
+                    const availableParticle = particles.find(p => p.life <= 0);
+                    if (availableParticle) {
+                        availableParticle.x = mouseX;
+                        availableParticle.y = mouseY;
+                        availableParticle.vx = (Math.random() - 0.5) * 12;
+                        availableParticle.vy = (Math.random() - 0.5) * 12;
+                        availableParticle.life = availableParticle.maxLife = Math.random() * 20 + 10;
+                        availableParticle.element.style.opacity = '1';
+                    }
+                }
+            });
+        });
+    </script>
+</h:body>
+</html>
