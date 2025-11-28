@@ -765,6 +765,7 @@
                 <li><a href="AdminController?acc=mensajesWeb"><i class="bi bi-chat-dots"></i> Mensajes Web</a></li>
                 <li><a href="AdminController?acc=proveedores"><i class="bi bi-truck"></i> Proveedores</a></li>
                 <li><a href="AdminController?acc=reportes" class="active" ><i class="bi bi-graph-up"></i> Reportes</a></li>
+                <li><a href="AdminController?acc=pedidos" ><i class="bi bi-cart-check"></i> Pedidos</a></li>
             </ul>
         </div>
 

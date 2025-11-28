@@ -884,6 +884,7 @@
                 <li><a href="AdminController?acc=admin"><i class="bi bi-person-gear"></i> Administradores</a></li>
                 <li><a href="AdminController?acc=mensajesWeb" class="active" ><i class="bi bi-chat-dots"></i> Mensajes Web</a></li>
                 <li><a href="AdminController?acc=proveedores"><i class="bi bi-truck"></i> Proveedores</a></li>
+                <li><a href="AdminController?acc=pedidos" ><i class="bi bi-cart-check"></i> Pedidos</a></li>
                 
             </ul>
         </div>
@@ -986,7 +987,7 @@
                             if(mensajeOriginal.length() > 50) mensajeOriginal = mensajeOriginal.substring(0, 50) + "...";
 
                             // 2. Construimos la frase
-                            String textoWhatsapp = "Hola " + nombreCliente + ", respondiendo a tu mensaje que fue: \"" + mensajeOriginal + "\", nosotras la empresa DonGlai nos contactamos para poder dar razón.";
+                            String textoWhatsapp = "Hola " + nombreCliente + ", respondiendo a tu mensaje que fue: \"" + mensajeOriginal + "\", nosotros la empresa DonGlai nos contactamos para poder dar razón.";
 
                             // 3. Codificamos para URL (Espacios -> %20, etc.)
                             String textoCodificado = java.net.URLEncoder.encode(textoWhatsapp, "UTF-8").replace("+", "%20");

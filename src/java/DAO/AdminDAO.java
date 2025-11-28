@@ -8,6 +8,8 @@ package DAO;
 import Modelo.Categoria;
 import DAO.Conexion;
 import Modelo.ContactData;
+import Modelo.DetallePedido;
+import Modelo.Pedido;
 import Modelo.ProductoDTO;
 import Modelo.Productoss;
 import Modelo.Proveedores;
@@ -791,4 +793,141 @@ public boolean actualizarProducto(ProductoDTO producto) {
 
         return flag;
     }
+    public int contarTotalPedidos() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) AS total FROM pedidos";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public int contarPedidosPorEstado(String estado) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) AS total FROM pedidos WHERE estado = ?";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setString(1, estado);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt("total");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    public List<Pedido> listarPedidos() {
+        List<Pedido> pedidos = new ArrayList<>();
+        String sql = "SELECT p.*, u.nombre, u.apellido " +
+                     "FROM pedidos p " +
+                     "INNER JOIN usuarios u ON p.id_usuario = u.id_usuario " +
+                     "ORDER BY p.fecha_pedido DESC";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Pedido pedido = new Pedido();
+                pedido.setIdPedido(rs.getInt("id_pedido"));
+                pedido.setIdUsuario(rs.getInt("id_usuario"));
+                pedido.setFechaPedido(rs.getTimestamp("fecha_pedido"));
+                pedido.setTotal(rs.getBigDecimal("total"));
+                pedido.setEstado(rs.getString("estado"));
+                pedido.setNombreUsuario(rs.getString("nombre") + " " + rs.getString("apellido"));
+                
+                // Obtener detalles del pedido
+                pedido.setDetalles(obtenerDetallesPedido(pedido.getIdPedido()));
+                
+                pedidos.add(pedido);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pedidos;
+    }
+
+    private List<DetallePedido> obtenerDetallesPedido(int idPedido) {
+        List<DetallePedido> detalles = new ArrayList<>();
+        String sql = "SELECT dp.*, p.nombre_producto " +
+                     "FROM detalle_pedido dp " +
+                     "INNER JOIN productos p ON dp.id_producto = p.id_producto " +
+                     "WHERE dp.id_pedido = ?";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setInt(1, idPedido);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    DetallePedido detalle = new DetallePedido();
+                    detalle.setIdDetallePedido(rs.getInt("id_detalle_pedido"));
+                    detalle.setIdPedido(rs.getInt("id_pedido"));
+                    detalle.setIdProducto(rs.getInt("id_producto"));
+                    detalle.setCantidad(rs.getInt("cantidad"));
+                    detalle.setPrecioUnitario(rs.getBigDecimal("precio_unitario"));
+                    detalle.setSubtotal(rs.getBigDecimal("subtotal"));
+                    detalle.setNombreProducto(rs.getString("nombre_producto"));
+                    
+                    detalles.add(detalle);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return detalles;
+    }
+
+    // Método adicional para obtener pedidos por usuario
+    public List<Pedido> listarPedidosPorUsuario(int idUsuario) {
+        List<Pedido> pedidos = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos WHERE id_usuario = ? ORDER BY fecha_pedido DESC";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Pedido pedido = new Pedido();
+                    pedido.setIdPedido(rs.getInt("id_pedido"));
+                    pedido.setIdUsuario(rs.getInt("id_usuario"));
+                    pedido.setFechaPedido(rs.getTimestamp("fecha_pedido"));
+                    pedido.setTotal(rs.getBigDecimal("total"));
+                    pedido.setEstado(rs.getString("estado"));
+                    pedido.setDetalles(obtenerDetallesPedido(pedido.getIdPedido()));
+                    
+                    pedidos.add(pedido);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pedidos;
+    }
+
+    // Método para actualizar el estado de un pedido
+    public boolean actualizarEstadoPedido(int idPedido, String nuevoEstado) {
+        String sql = "UPDATE pedidos SET estado = ? WHERE id_pedido = ?";
+        
+        try (PreparedStatement stmt = cn.prepareStatement(sql)) {
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, idPedido);
+            
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 }
+

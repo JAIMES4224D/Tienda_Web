@@ -9,6 +9,7 @@ import DAO.AdminDAO;
 import DAO.ContDAO;
 import Modelo.Categoria;
 import Modelo.ContactData;
+import Modelo.Pedido;
 import Modelo.Productoss;
 import Modelo.Proveedores;
 import Modelo.Usuario;
@@ -125,9 +126,28 @@ public class AdminController extends HttpServlet {
             request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
         }
         
-        if(acc.equals("reportes")){
-            
+        if(acc.equals("pedidos")){
+            int totalPedidos = ad.contarTotalPedidos();
+            int pedidosPendientes = ad.contarPedidosPorEstado("pendiente");
+            int pedidosPagados = ad.contarPedidosPorEstado("pagado");
+            int pedidosEnviados = ad.contarPedidosPorEstado("enviado");
+            int pedidosEntregados = ad.contarPedidosPorEstado("entregado");
+            int pedidosCancelados = ad.contarPedidosPorEstado("cancelado");
+
+            // Obtener lista de pedidos
+            List<Pedido> listaPedidos = ad.listarPedidos();
+
+            request.setAttribute("totalPedidos", totalPedidos);
+            request.setAttribute("pedidosPendientes", pedidosPendientes);
+            request.setAttribute("pedidosPagados", pedidosPagados);
+            request.setAttribute("pedidosEnviados", pedidosEnviados);
+            request.setAttribute("pedidosEntregados", pedidosEntregados);
+            request.setAttribute("pedidosCancelados", pedidosCancelados);
+            request.setAttribute("listaPedidos", listaPedidos);
+
+            request.getRequestDispatcher("Pedidos.jsp").forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
