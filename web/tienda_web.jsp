@@ -495,10 +495,10 @@
         .notificacion.error { background: linear-gradient(135deg, #ff4d4d, #cc0000); border-left: 4px solid #ff8888; }
         .notificacion.warning { background: linear-gradient(135deg, #ffc107, #e0a800); border-left: 4px solid #ffd54f; color: #000; }
 
-        /* Footer */
+        
         footer { background-color: #000; color: #aaa; text-align: center; padding: 25px 0; margin-top: 50px; }
 
-        /* Modal Detalle Body */
+        
         .modal-detalle-body { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
         .modal-detalle-imagen { width: 100%; height: 300px; background: #2a2a2a; border-radius: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .modal-detalle-imagen img { width: 100%; height: 100%; object-fit: cover; }
@@ -602,7 +602,7 @@
         </div>
     </section>
 
-    <!-- Modal Detalle Producto -->
+    
     <div class="modal-detalle" id="modalDetalle">
         <div class="modal-detalle-content">
             <div class="modal-detalle-header">
@@ -613,7 +613,7 @@
         </div>
     </div>
 
-    <!-- Modal Carrito -->
+    
     <div class="modal-carrito" id="modalCarrito">
         <div class="modal-carrito-content">
             <div class="modal-carrito-header">
@@ -636,7 +636,7 @@
         </div>
     </div>
 
-    <!-- Modal Mis Pedidos -->
+    
     <div class="modal-pedidos" id="modalPedidos">
         <div class="modal-pedidos-content">
             <div class="modal-pedidos-header">
@@ -657,7 +657,7 @@
         </div>
     </div>
 
-    <!-- Modal Detalle de Pedido Específico -->
+    
     <div class="modal-detalle-pedido" id="modalDetallePedido">
         <div class="modal-detalle-pedido-content">
             <div class="modal-detalle-pedido-header">
@@ -678,7 +678,7 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación de compra -->
+    
     <div class="modal-compra" id="modalCompra">
         <div class="modal-compra-content">
             <div class="modal-compra-header">
@@ -705,9 +705,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // =============================================
-        // LOGICA GLOBAL
-        // =============================================
         var carrito = JSON.parse(localStorage.getItem('carritoDonglai')) || [];
         var productosOriginales = [];
         var productosFiltrados = [];
@@ -728,9 +725,6 @@
             });
         }
 
-        // =============================================
-        // FUNCIONALIDAD DE PEDIDOS - MEJORADA
-        // =============================================
         function verMisPedidos() {
             document.getElementById('modalPedidos').classList.add('active');
             cargarMisPedidos();
@@ -893,9 +887,6 @@
             contenedor.innerHTML = html;
         }
 
-        // =============================================
-        // LOGICA DEL CARRITO (se mantiene igual)
-        // =============================================
         function actualizarBadge() {
             var totalItems = carrito.reduce(function(acc, item) { return acc + item.cantidad; }, 0);
             var badge = document.getElementById('carritoBadge');
@@ -986,9 +977,6 @@
             if(confirm('¿Vaciar carrito?')) { carrito = []; guardarCarrito(); renderizarCarrito(); }
         }
 
-        // =============================================
-        // PROCESO DE COMPRA
-        // =============================================
         function realizarCompra() {
             if (carrito.length === 0) { mostrarNotificacion('❌ El carrito está vacío', 'error'); return; }
             if (!verificarStockDisponible()) { mostrarNotificacion('❌ Stock insuficiente en algunos productos', 'error'); return; }
@@ -1058,9 +1046,6 @@
             });
         }
 
-        // =============================================
-        // CARGA DE PRODUCTOS Y UTILIDADES
-        // =============================================
         function cargarProductos() {
             fetch('ProductosServlet', { method: 'GET', headers: { 'Accept': 'application/json' } })
             .then(function(r) { return r.json(); })
